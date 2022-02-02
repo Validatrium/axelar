@@ -244,7 +244,7 @@ systemctl start axelard-val.service
 
 ## 5. Additional links
 
-#### [How to claim rewards and delegate them to your node via CLI](https://gist.github.com/Validatrium/faf63de0dda2298c4d00349d1612c548)
+#### [How to claim rewards and delegate them to your node via CLI](https://github.com/Validatrium/axelar/blob/main/docs/redelegate.axelar.md)
  
 ### Tutorial created by Validatrium (more info on our projects at [validatrium.com](http://validatrium.com))
 
