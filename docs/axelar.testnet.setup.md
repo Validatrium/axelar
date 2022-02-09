@@ -18,7 +18,7 @@ Tutorial created by Validatrium (more info on our projects at [validatrium.com](
  5. [Additional links](#5-additional-links)
 
 ## This guide works only with currently latest update:
-`git: v0.9, core: v0.13.2, tofnd: v0.8.2`
+`git: v0.9, core: v0.13.6, tofnd: v0.8.2`
 
 ### 1. Prerequires (minimal, off docs): 
 - Ubuntu 20.04 (tested on this OS)
@@ -41,37 +41,39 @@ Tutorial created by Validatrium (more info on our projects at [validatrium.com](
 ```
 
 ### 3. about this guide: 
-This is manual setup with binaries. It's different than official installer.
+This is manual setup with binaries. It's different than official auto-installer.
 There are 3 processess need to be running: 
 tofnd, axelard node, axelard validator.
 For all of them I create service file
 
 
-### snapshot download link
-`wget https://snap.validatrium.club/axelar/201066.data.tar.gz` # current snap size is 30GB
+### snapshots link
+https://quicksync.io/networks/axelar.html
 
 ## 4. Install
 
 #### preparation
 ```bash
 # install jq 
-sudo apt install jq
+sudo apt install jq lz4
+# create custom sudo user
+adduser axelar
+usermod -aG sudo axelar
+su - axelar
 
-# download repository ( need to grap configs )
+# download repository ( need to grab configs )
 git clone https://github.com/axelarnetwork/axelarate-community.git 
-cd axelarate-community
-git checkout v0.9.1
 
 # download binaries
-curl  "https://axelar-releases.s3.us-east-2.amazonaws.com/axelard/v0.13.2/axelard-linux-amd64-v0.13.2" -o /usr/local/bin/axelard
-curl -s --fail https://axelar-releases.s3.us-east-2.amazonaws.com/tofnd/v0.8.2/tofnd-linux-amd64-v0.8.2 -o /usr/local/bin/tofnd
-chmod +x /usr/local/bin/axelard
-chmod +x /usr/local/bin/tofnd
+sudo curl  "https://axelar-releases.s3.us-east-2.amazonaws.com/axelard/v0.13.6/axelard-linux-amd64-v0.13.6" -o /usr/local/bin/axelard
+sudo curl -s --fail https://axelar-releases.s3.us-east-2.amazonaws.com/tofnd/v0.8.2/tofnd-linux-amd64-v0.8.2 -o /usr/local/bin/tofnd
+sudo chmod +x /usr/local/bin/axelard
+sudo chmod +x /usr/local/bin/tofnd
 
 # insert usefull variables 
 ## replace <node-name> with your value
 echo 'export ACCOUNT=<node-name>' >> $HOME/.bashrc
-echo 'export CHAIN=axelar-testnet-lisbon-2' >> $HOME/.bashrc
+echo 'export CHAIN=axelar-testnet-lisbon-3' >> $HOME/.bashrc
 source $HOME/.bashrc
 
 axelard init $ACCOUNT --chain-id $CHAIN
@@ -80,33 +82,35 @@ axelard init $ACCOUNT --chain-id $CHAIN
 curl -s --fail https://axelar-testnet.s3.us-east-2.amazonaws.com/genesis.json -o $HOME/.axelar/config/genesis.json
 # download latest seeds
 curl -s --fail https://axelar-testnet.s3.us-east-2.amazonaws.com/seeds.txt -o $HOME/.axelar/config/seeds.txt
-# copy default settings from official repo
-cp axelarate-community/join/config.toml $HOME/.axelar/config/  
-cp axelarate-community/join/app.toml $HOME/.axelar/config/
+# copy recomended settings from official repo
+cp axelarate-community/configuration/config.toml $HOME/.axelar/config/  
+cp axelarate-community/configuration/app.toml $HOME/.axelar/config/
 
 # enter seeds to your config.json file
-# will be replaced by 'sed' later
-cat $HOME/.axelar/config/seeds.txt
-nano $HOME/.axelar/config/config.json # paste seeds inside
+sed -i.bak 's/seeds = \"\"/seeds = \"'$(cat $HOME/.axelar/config/seeds.txt)'\"/g' $HOME/.axelar/config/config.toml
 
-# enter 'external_address="<your-external-ip:26656>"' 
+# set external ip to your config.json file
+sed -i.bak 's/external_address = \"\"/external_address = \"'"$(curl ifconfig.co)"':26656\"/g' $HOME/.axelar/config/config.toml
 
-# snapshot height=201066
-# download 
-wget https://snap.validatrium.club/axelar/201066.data.tar.gz
+
+# download latest snapshot from https://quicksync.io/networks/axelar.html
+# in my case it will be:
+wget https://dl2.quicksync.io/axelartestnet-lisbon-3-pruned.20220209.0750.tar.lz4
 # remove old data
 rm -rf $HOME/.axelar/data
 # extract all
-tar -xf 201066.data.tar.gz -C $HOME/.axelar
+lz4 -dc --no-sparse axelartestnet-lisbon-3-pruned.20220209.0750.tar.lz4 | tar xfC - $HOME/.axelar/
+chown $USER:$USER $HOME/.axelar/data -R
+
 
 # create service file: 
-cat > /etc/systemd/system/axelar-node.service << EOF
+sudo bash -c 'cat > /etc/systemd/system/axelard-node.service << EOF
 [Unit]
 Description=axelard-node
 After=network-online.target
 
 [Service]
-User=$USER
+User=axelar
 ExecStart=/usr/local/bin/axelard start
 Restart=always
 RestartSec=3
@@ -116,14 +120,13 @@ Restart=on-abnormal
 
 [Install]
 WantedBy=multi-user.target
-EOF
+EOF'
 
-
-systemctl enable axelar-node.service
-systemctl start axelar-node
+sudo systemctl enable axelard-node.service
+sudo systemctl start axelard-node
 
 # check axelar-node logs:
-journalctl -u axelar-node -f
+journalctl -u axelard-node -f
 ```
 ####  Working with keys: 
 ```bash
@@ -131,7 +134,7 @@ journalctl -u axelar-node -f
 axelard keys add $ACCOUNT
 
 ## example of output. Save it! ## this key is just generated. It's absolutely useless. 
-- name: Test2
+- name: Test
   type: local
   address: axelar1f2fkstrhn0rg60fg2d6epk3t4pjcwhp9850mc3
   pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"A7UGGaxobO/uEsIKxIctqKSvHBz1lFwq5AjwarEle7lh"}'
@@ -141,7 +144,7 @@ axelard keys add $ACCOUNT
 **Important** write this mnemonic phrase in a safe place.
 It is the only way to recover your account if you ever forget your password.
 
-brand cost notable stand robot token illegal roast soccer gentle sign business protect emerge occur balcony wire music ill math minimum home rally pause
+	brand cost notable stand robot token illegal roast soccer gentle sign business protect emerge occur balcony wire music ill math minimum home rally pause
 ######
 
 # create 1 more key 
@@ -181,13 +184,13 @@ cat $HOME/.axelar/.tofnd/import
 #### start tofnd
 ```bash
 # replace <tofnd password> with your password
-cat > /etc/systemd/system/tofnd.service << EOF
+sudo bash -c "cat > /etc/systemd/system/tofnd.service << EOF
 [Unit]
 Description=tofnd
 After=network-online.target
 
 [Service]
-User=$USER
+User=axelar
 ExecStart=/usr/bin/sh -c 'echo <tofnd password> | tofnd -m existing -d $HOME/.axelar/.tofnd'
 Restart=always
 RestartSec=3
@@ -197,24 +200,26 @@ Restart=on-abnormal
 
 [Install]
 WantedBy=multi-user.target
-EOF
+EOF"
 
-systemctl enable tofnd.service 
-systemctl start tofnd.service
+sudo systemctl enable tofnd.service 
+sudo systemctl start tofnd.service
+# you can check logs by running:
+journalctl -u tofnd -f
 ```
 
 
 #### Setup&Run validator
 ```bash
 # copy 'broadcaster' key to validator
-axelard keys add broadcaster --recover --home $HOME/.axelar/.vald  --keyring-backend test   # insert a mnemonic from first account you created
+axelard keys add broadcaster --recover --home $HOME/.axelar/.vald  --keyring-backend test   # insert a mnemonic from broadcaster account you created
 
 # copy configs: 
 cp $HOME/.axelar/config/config.toml $HOME/.axelar/.vald/config/config.toml
 cp $HOME/.axelar/config/app.toml $HOME/.axelar/.vald/config/app.toml
 cp $HOME/.axelar/config/genesis.json $HOME/.axelar/.vald/config/genesis.json
 
-cat > /etc/systemd/system/axelard-val.service << EOF
+cat > axelard-val.service << EOF
 [Unit]
 Description=axelard-val
 After=network-online.target
@@ -232,15 +237,13 @@ Restart=on-abnormal
 WantedBy=multi-user.target
 EOF
 
-systemctl enable axelard-val.service
-systemctl start axelard-val.service
+sudo mv axelard-val.service /etc/systemd/system
 
+sudo systemctl enable axelard-val.service
+sudo systemctl start axelard-val.service
+# you can check logs by running: 
+journalctl -u axelard-val -f
 ```
-
-```
-#### !! TODO !! 
-- script optimization :)
- ```
 
 ## 5. Additional links
 
