@@ -9,7 +9,7 @@ Tutorial created by Validatrium (more info on our projects at [validatrium.com](
  1. [Prerequires (minimal, off docs)](#1-prerequires-minimal-off-docs)
  2. [Open Port requirements (default settings)](#2-open-port-requirements-default-settings)
  3. [About this guide](#3-about-this-guide)
-    - [snapshot download link](#snapshot-download-link)
+    - [snapshots download link](#snapshots-link)
  4. [Install](#4-install)
     - [preparation](#preparation)
     - [working with keys](#working-with-keys)
