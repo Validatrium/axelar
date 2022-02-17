@@ -90,7 +90,7 @@ cp axelarate-community/configuration/app.toml $HOME/.axelar/config/
 sed -i.bak 's/seeds = \"\"/seeds = \"'$(cat $HOME/.axelar/config/seeds.txt)'\"/g' $HOME/.axelar/config/config.toml
 
 # set external ip to your config.json file
-sed -i.bak 's/external_address = \"\"/external_address = \"'"$(curl ifconfig.co)"':26656\"/g' $HOME/.axelar/config/config.toml
+sed -i.bak 's/external_address = \"\"/external_address = \"'"$(curl -4 ifconfig.co)"':26656\"/g' $HOME/.axelar/config/config.toml
 
 
 # download latest snapshot from https://quicksync.io/networks/axelar.html
