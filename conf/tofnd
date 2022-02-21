@@ -1,0 +1,3 @@
+check process tofnd
+        matching "tofnd -m existing"
+        if not exist then exec "/root/validatrium-axelar/bin/monit2telegram"
