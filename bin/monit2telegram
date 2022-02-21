@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Monit EXEC handler that sends monit notifications via Telegram
+#
+/root/validatrium-axelar/bin/sendtelegram \
+-c /root/validatrium-axelar/telegram.conf \
+-m \
+"❌ Monit Alert:
+$MONIT_SERVICE - $MONIT_EVENT
+Start date at $MONIT_DATE on $MONIT_HOST
+Problem: $MONIT_ACTION $MONIT_DESCRIPTION."
+"
