@@ -1,3 +1,3 @@
 check process tofnd
         matching "tofnd -m existing"
-        if not exist then exec "/root/validatrium-axelar/bin/monit2telegram"
+        if not exist then exec "/root/axelar/bin/monit2telegram"

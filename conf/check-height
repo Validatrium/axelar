@@ -1,2 +1,2 @@
-check program 'Height is changing' with path "/bin/bash -c '/root/validatrium-axelar/height.sh'"
-        if status != 0 then exec "/root/validatrium-axelar/bin/monit2telegram"
+check program 'Height is changing' with path "/bin/bash -c '/root/axelar/height.sh'"
+        if status != 0 then exec "/root/axelar/bin/monit2telegram"

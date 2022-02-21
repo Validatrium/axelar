@@ -1,3 +1,3 @@
 check device "Free disk space" with path /
-    if SPACE usage > 80% then exec "/root/validatrium-axelar/bin/monit2telegram"
-    if SPACE usage > 90% then exec "/root/validatrium-axelar/bin/monit2telegram"
+    if SPACE usage > 80% then exec "/root/axelar/bin/monit2telegram"
+    if SPACE usage > 90% then exec "/root/axelar/bin/monit2telegram"
