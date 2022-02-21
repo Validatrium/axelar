@@ -1,4 +1,4 @@
-#Setup Monitoring for Axelar Node
+# Setup Monitoring for Axelar Node
 
 ## Notifications you will recieve with this config
 - free disk space is less than 20% and 10%
