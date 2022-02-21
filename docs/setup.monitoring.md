@@ -50,4 +50,4 @@ bin/sendtelegram -m 'hi there!' -c telegram.conf
 service monit restart
 ```
 
-### you can also find more monit docs [here](https://mmonit.com/monit/documentation/monit.html)
+### You can also find more monitoring docs [here](https://mmonit.com/monit/documentation/monit.html)
