@@ -1,11 +1,11 @@
-# Setup Monitoring for Axelar Node
+# Setup Telegram Monitoring for Axelar Node
 
 ## Notifications you will recieve with this config
-- free disk space is less than 20% and 10%
-- height is not changing
-- axelard process is not running
-- axelard-vald process is not running
-- tofnd is not running
+- free disk space is less than 20% and 10% (low disk space notification)
+- height is not changing (network connection error notification)
+- axelard process is not running (node down notification)
+- axelard-vald process is not running (validator not signing blocks notification)
+- tofnd is not running (tofn-daemon not running notification)
 
 
 ## Prerequires 
