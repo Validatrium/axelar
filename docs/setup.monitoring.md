@@ -1,7 +1,7 @@
 # Setup Telegram Monitoring for Axelar Node
 
 ## Notifications you will recieve with this config
-- free disk space is less than 20% and 10% *(low disk space notification)*
+- free disk space is less than 20% and 10% - *(low disk space notification)*
 - height is not changing (network connection error notification)
 - axelard process is not running (node down notification)
 - axelard-vald process is not running (validator not signing blocks notification)
