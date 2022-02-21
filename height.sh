@@ -2,7 +2,7 @@
 
 #replace with your rpc address: (example: localhost:26657)
 RPC="localhost:26657"
-TMP_FILE='/root/validatrium-axelar/last-height.txt'
+TMP_FILE='/root/axelar/last-height.txt'
 
 if [ !  -f "$TMP_FILE" ]; then
     echo 0 >  $TMP_FILE
