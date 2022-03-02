@@ -1,4 +1,4 @@
-# axelar
+# Axelar
 all Axelar docs created, gathered and updated in one place by [Validatrium](https://validatrium.com/)
 
 # Guides list:
