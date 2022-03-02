@@ -65,7 +65,7 @@ su - axelar
 git clone https://github.com/axelarnetwork/axelarate-community.git 
 
 # download binaries
-sudo curl  "https://axelar-releases.s3.us-east-2.amazonaws.com/axelard/v0.13.6/axelard-linux-amd64-v0.13.6" -o /usr/local/bin/axelard
+sudo curl  "https://axelar-releases.s3.us-east-2.amazonaws.com/axelard/v0.14.0/axelard-linux-amd64-v0.14.0" -o /usr/local/bin/axelard
 sudo curl -s --fail https://axelar-releases.s3.us-east-2.amazonaws.com/tofnd/v0.8.2/tofnd-linux-amd64-v0.8.2 -o /usr/local/bin/tofnd
 sudo chmod +x /usr/local/bin/axelard
 sudo chmod +x /usr/local/bin/tofnd
