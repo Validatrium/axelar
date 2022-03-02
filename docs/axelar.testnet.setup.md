@@ -18,7 +18,7 @@ Tutorial created by Validatrium (more info on our projects at [validatrium.com](
  5. [Additional links](#5-additional-links)
 
 ## This guide works only with currently latest update:
-`git: v0.9, core: v0.13.6, tofnd: v0.8.2`
+`git: v0.9, core: v0.14.0, tofnd: v0.8.2`
 
 ### 1. Prerequires (minimal, off docs): 
 - Ubuntu 20.04 (tested on this OS)
