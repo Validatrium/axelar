@@ -1,5 +1,5 @@
 # axelar
-all Axelar docs created and gathered in one place by [Validatrium](https://validatrium.com/)
+all Axelar docs created, gathered and updated in one place by [Validatrium](https://validatrium.com/)
 
 # Guides list:
 
