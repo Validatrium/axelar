@@ -27,7 +27,7 @@ usermod -aG sudo axelar
 su - axelar
 
 # set required variables:
-AXELARD_RELEASE=v0.26.5
+AXELARD_RELEASE=v0.33.0
 TOFND_RELEASE=v0.10.1
 CHAIN=axelar-testnet-lisbon-3
 ACCOUNT=<your-node-name>
